@@ -21,3 +21,4 @@ class TestPatientCreate(TestCase):
             data=dict(first_name="Jeb", last_name="Bush", age=53))
         x = patient_two.create()
         self.assertEqual(x.get('age'), 53)
+        self.assertEqual(x.get('first_name'), 'jeb', "should be downcasing")
