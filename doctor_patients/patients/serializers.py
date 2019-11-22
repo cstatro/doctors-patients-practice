@@ -10,12 +10,11 @@ class PatientSerializer(serializers.ModelSerializer):
         fields = ('first_name', 'last_name', 'age', 'id')
 
     def create(self):
-        if self.is_valid():
-            new_patient = Patient(**self.validated_data)
-            PatientSerializer(new_patient.save())
-            return PatientSerializer(new_patient).data
-        else:
-            return self.errors
+        new_patient = Patient(**self.validated_data)
+        new_patient.first_name = new_patient.first_name.lower()
+        new_patient.last_name = new_patient.last_name.lower()
+        new_patient.save()
+        return PatientSerializer(new_patient).data
 
     def validate_age(self, value):
         if value < 0:

@@ -1,6 +1,8 @@
 from django.test import TestCase
 from .models import Patient
 from .serializers import PatientSerializer
+from .views import PatientsListView
+from django.http import HttpRequest
 
 
 class TestPatientCreate(TestCase):
@@ -15,10 +17,22 @@ class TestPatientCreate(TestCase):
         self.assertEqual(patient.last_name, "Barker")
         self.assertEqual(patient.age, 7)
 
-    def test_patient_two_creates(self):
-        """Testing the serializer creates a patient"""
-        patient_two = PatientSerializer(
-            data=dict(first_name="Jeb", last_name="Bush", age=53))
-        x = patient_two.create()
-        self.assertEqual(x.get('age'), 53)
-        self.assertEqual(x.get('first_name'), 'jeb', "should be downcasing")
+
+class TestPatientView(TestCase):
+
+    def test_patient_post(self):
+        """checks to see if post request properly returns data"""
+        view_api = PatientsListView()
+        request = HttpRequest()
+        request.data = dict(first_name="Jeb", last_name="Bush", age=53)
+        response = view_api.post(request)
+        self.assertEquals(response.status_code, 201)
+        self.assertEquals(response.data.get('first_name'), 'jeb')
+
+    def test_rejects_bad_age(self):
+        """checks to see if it will reject invalid age number"""
+        view_api = PatientsListView()
+        request = HttpRequest()
+        request.data = dict(first_name="Jeb", last_name="Bush", age=-1)
+        response = view_api.post(request)
+        self.assertEquals(response.status_code, 400)
