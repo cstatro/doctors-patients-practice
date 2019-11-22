@@ -19,7 +19,6 @@ class TestPatientCreate(TestCase):
 
 
 class TestPatientView(TestCase):
-
     def test_patient_post(self):
         """checks to see if post request properly returns data"""
         view_api = PatientsListView()
@@ -36,3 +35,13 @@ class TestPatientView(TestCase):
         request.data = dict(first_name="Jeb", last_name="Bush", age=-1)
         response = view_api.post(request)
         self.assertEquals(response.status_code, 400)
+
+
+class TestPatientListGet(TestCase):
+    def test_to_see_list_returned(self):
+        """checks to see if a list is returned"""
+        view_api = PatientsListView()
+        request = HttpRequest()
+        response = view_api.get(request)
+        self.assertEquals(response.status_code, 200)
+        self.assertIsInstance(response.data, list, " this is not a list")
