@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'patients',
     'doctors',
     'rest_framework',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
