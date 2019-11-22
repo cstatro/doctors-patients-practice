@@ -38,6 +38,10 @@ class TestPatientView(TestCase):
 
 
 class TestPatientListGet(TestCase):
+    def setUp(self):
+        patient_one = Patient.objects.create(
+            first_name="Bob", last_name="Barker", age=7)
+
     def test_to_see_list_returned(self):
         """checks to see if a list is returned"""
         view_api = PatientsListView()
@@ -45,3 +49,9 @@ class TestPatientListGet(TestCase):
         response = view_api.get(request)
         self.assertEquals(response.status_code, 200)
         self.assertIsInstance(response.data, list, " this is not a list")
+
+    def test_to_see_if_appointments_exist(self):
+        """makes sure an empty list is being serialized as the appointments"""
+        patient = Patient.objects.first()
+        self.assertIsInstance(patient.appointments, list,
+                              "list is not present at appointments")
