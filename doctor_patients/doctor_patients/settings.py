@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'patients',
     'doctors',
+    'appointments',
     'rest_framework',
     'django_extensions',
 ]
