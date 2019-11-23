@@ -4,7 +4,8 @@ from doctors.serializers import DoctorSerializer
 
 
 class AppointmentSerializer(ModelSerializer):
+    doctor = DoctorSerializer()
 
     class Meta:
         model = Appointment
-        fields = ('description')
+        fields = ('id', 'description', 'doctor')

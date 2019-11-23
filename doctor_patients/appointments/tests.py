@@ -25,5 +25,6 @@ class AppointmentCreate(TestCase):
     def test_serializer_works_appointment(self):
         """test that the serializer is working on appointment"""
         appt = Appointment.objects.first()
-        serialized = AppointmentSerializer(data=appt)
-        self.assertTrue(serialized.is_valid())
+        serialized = AppointmentSerializer(appt)
+        self.assertEquals(serialized.data.get(
+            'description'), 'applesauce in my boot')
