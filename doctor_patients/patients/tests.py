@@ -3,6 +3,10 @@ from .models import Patient
 from .serializers import PatientSerializer
 from .views import PatientsListView
 from django.http import HttpRequest
+from django.apps import apps
+# Dynamically loaded models
+Doctor = apps.get_model('doctors', 'Doctor')
+Appointment = apps.get_model('appointments', 'Appointment')
 
 
 class TestPatientCreate(TestCase):
@@ -41,6 +45,8 @@ class TestPatientListGet(TestCase):
     def setUp(self):
         patient_one = Patient.objects.create(
             first_name="Bob", last_name="Barker", age=7)
+        doctor_jeb = Doctor.objects.create(
+            first_name="jeb", last_name='bush', speciality="butts")
 
     def test_to_see_list_returned(self):
         """checks to see if a list is returned"""
@@ -53,5 +59,5 @@ class TestPatientListGet(TestCase):
     def test_to_see_if_appointments_exist(self):
         """makes sure an empty list is being serialized as the appointments"""
         patient = Patient.objects.first()
-        self.assertIsInstance(patient.appointments, list,
+        self.assertIsInstance(list(patient.appointments.all()), list,
                               "list is not present at appointments")
