@@ -10,4 +10,4 @@ class AppointmentsList(APIView):
         appointments = Appointment.objects.all()
         serialized_appointments = AppointmentSerializer(
             appointments, many=True)
-        return Response(serialized_appointments)
+        return Response(serialized_appointments.data)
