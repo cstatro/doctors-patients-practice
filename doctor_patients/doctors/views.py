@@ -10,3 +10,10 @@ class DoctorListView(APIView):
         doctors = Doctor.objects.all()
         serialized = DoctorSerializer(doctors, many=True)
         return Response(serialized.data)
+
+
+class DoctorView(APIView):
+    def get(self, request, pk, format=None):
+        doctor = Doctor.objects.get(id=pk)
+        serialized = DoctorSerializer(doctor)
+        return Response(serialized.data)
