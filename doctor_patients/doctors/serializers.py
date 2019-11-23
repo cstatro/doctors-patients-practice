@@ -4,7 +4,7 @@ from appointments.serializers import AppointmentSerializer
 
 
 class DoctorSerializer(ModelSerializer):
-    appointments = AppointmentSerializer(many=true)
+    appointments = AppointmentSerializer(many=True)
 
     class Meta:
         model = Doctor
