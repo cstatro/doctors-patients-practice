@@ -47,6 +47,8 @@ class TestPatientListGet(TestCase):
             first_name="Bob", last_name="Barker", age=7)
         doctor_jeb = Doctor.objects.create(
             first_name="jeb", last_name='bush', speciality="butts")
+        Appointment.objects.create(
+            doctor=doctor_jeb, patient=patient_one, description="checking butts")
 
     def test_to_see_list_returned(self):
         """checks to see if a list is returned"""
@@ -61,3 +63,10 @@ class TestPatientListGet(TestCase):
         patient = Patient.objects.first()
         self.assertIsInstance(list(patient.appointments.all()), list,
                               "list is not present at appointments")
+
+    def test_to_make_sure_appointment_is_made(self):
+        """making sure appointment gets made"""
+        patient = Patient.objects.first()
+        appt = patient.appointments.first()
+        self.assertIsInstance(appt, Appointment)
+        self.assertEquals(appt.patient.first_name, "Bob")

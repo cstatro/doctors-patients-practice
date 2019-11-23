@@ -6,4 +6,4 @@ class DoctorSerializer(ModelSerializer):
 
     class Meta:
         model = Doctor
-        fields = ('id', 'first_name', 'last_name')
+        fields = ('id', 'first_name', 'last_name', 'appointments')
